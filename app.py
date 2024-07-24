@@ -64,6 +64,7 @@ def signup_page():
         name = request.form.get("name")
         email = request.form.get("email")
         unhashed_password = request.form.get("password")
+        # bcrypt is a library which is used to create hashes for the passwords to store it in encrypted format.
         password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8')
         # print(name, email, password)
         cred_table = UserCreds(name=name, email=email, password=password)
