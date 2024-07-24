@@ -41,6 +41,7 @@ class UserCreds(db.Model):
         self.password = password
 
 
+# creates db table based on the username
 def create_db_table(table_name):
     class Table(db.Model):
         __tablename__ = table_name
