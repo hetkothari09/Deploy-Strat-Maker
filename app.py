@@ -64,9 +64,8 @@ def signup_page():
         name = request.form.get("name")
         email = request.form.get("email")
         unhashed_password = request.form.get("password")
-        password = bcrypt.generate_password_hash(unhashed_password)
-        # password = request.form.get("password")
-        print(name, email, password)
+        password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8')
+        # print(name, email, password)
         cred_table = UserCreds(name=name, email=email, password=password)
         db.session.add(cred_table)
         db.session.commit()
@@ -76,31 +75,14 @@ def signup_page():
 @app.route("/login", methods=["POST", "GET"])
 def login_page():
     if request.method == 'POST':
-        name = request.form.get("name")
         email = request.form.get("email")
-        # unhashed_password = request.form.get("password")
-        # password = bcrypt.generate_password_hash(unhashed_password)
-        # print(password)
         password = request.form.get("password")
-        # cursor.execute('SELECT password FROM public.user_creds WHERE email = %s', (email,))
-        # result = cursor.fetchone()
 
-        email_list = []
-        cursor.execute('SELECT email from public.user_creds')
-        emails = cursor.fetchall()
-        for x in emails:
-            email_list.append(x[0])
-
-        pwd_list = []
-        cursor.execute('SELECT password from public.user_creds')
-        pwds = cursor.fetchall()
-        for x in pwds:
-            pwd_list.append(x[0])
-
-        if email in email_list:
-            if bcrypt.check_password_hash():
-            # if password in pwd_list:
-                return redirect('/user1')
+        user = UserCreds.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            return redirect('/')
+        else:
+            pass
 
     return render_template('login.html')
 
@@ -144,6 +126,7 @@ def create_endpoints(username, table_model):
         chat_history = table_model.query.all()
         return render_template('interfaceTesting.html', result=result, username=username, history=history,
                                chat_history=chat_history, timestamp=(datetime.now()).strftime('%d-%m-%Y %H:%M:%S'))
+
     user_endpoint.__name__ = f"{username}"
     app.route(f"/{username}", methods=['POST', 'GET'])(user_endpoint)
 
