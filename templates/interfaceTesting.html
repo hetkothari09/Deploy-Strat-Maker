@@ -21,16 +21,21 @@
           <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/" style="margin-top:7px;">
-                 <i class="fas fa fa-user" style="font-size:20px; margin-right:20px; text-shadow:none; border:none;"></i>
+                 <i class="fa fa-user-plus" style="font-size:22px; margin-left:10px; text-shadow:none; border:none;"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">
+                <i class="fa fa-sign-in" style="margin-left: 43px; font-size:24px; margin-top:7px;"></i>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/dbshow/{{username}}">
-                <i class="fa fa-history" aria-hidden="true" style="padding-left: 18px; font-size:23px; margin-top:5px;"></i>
+                <i class="fa fa-history" aria-hidden="true" style="margin-left: 48px; font-size:23px; margin-top:7px;"></i>
               </a>
             </li>
           </ul>
-            <button class="btn btn-outline-secondary ms-auto" id="modeToggle" style="margin-left: 130vh; text-shadow: 0.6px 0.6px gray;">Dark Mode</button>
+            <button class="btn btn-outline-secondary ms-auto" id="modeToggle" style="margin-left: 112.1vh; text-shadow: 0.6px 0.6px gray;">Dark Mode</button>
       </div>
     </div>
   </nav>
@@ -83,9 +88,10 @@
         </div>
         </div>
 
-<!--            <button class="uf-btn" onclick="addRuleGroup()" style="height:30px;">Add Group</button>-->
+
             <button class="uf-btn" onclick="getRules()" style="height:30px; background-color: gray; color: black; margin-left: 61vh; margin-bottom: -20px; color: white; border-radius: 3px; ">Get rules</button>
-<!--            <button class="uf-btn" onclick="testwindow()">TestWindow</button>-->
+<!--            <button class="uf-btn" onclick="addRuleGroup()" style="height:30px;">Add Group</button>-->
+        <!--            <button class="uf-btn" onclick="testwindow()">TestWindow</button>-->
 <!--            {{result | replace('\n', '<br>') | safe}}-->
 <!--            </div>-->
 
