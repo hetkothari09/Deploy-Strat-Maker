@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, abort
+from flask import Flask, render_template, request, url_for, redirect, abort, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import os
@@ -7,11 +7,13 @@ from datetime import datetime
 import json
 import psycopg2
 from openai import OpenAI
+import jwt
 
 load_dotenv()
 model = os.getenv("MODEL")
 api_key = os.getenv("API_KEY")
 client = OpenAI(api_key=api_key)
+google_client_id = os.getenv("GOOGLE_CLIENT_ID")
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:root@localhost:5432/gpt_prompt-responses'
@@ -33,9 +35,9 @@ class UserCreds(db.Model):
     sNo = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=True, nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+    password = db.Column(db.String(200), nullable=True)
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password=None):
         self.name = name
         self.email = email
         self.password = password
@@ -68,6 +70,11 @@ def signup_page():
         name = request.form.get("name")
         email = request.form.get("email")
         unhashed_password = request.form.get("password")
+
+        # google_data = request.json
+        # gname = google_data.get('given_name')
+        # print(gname)
+
         password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8')
 
         cred_table = UserCreds(name=name, email=email, password=password)
@@ -79,6 +86,26 @@ def signup_page():
 
         return redirect(url_for('login_page'))
     return render_template('signup.html')
+
+
+# @app.route("/google-signup", methods=['POST'])
+# def google_signup():
+#     data = request.json
+#     email = data.get("email")
+#     name = data.get("name")
+#
+#     user = UserCreds.query.filter_by(email=email).first()
+#     if user:
+#         return jsonify({"success": False, "message": "User already exists"}), 409
+#
+#     cred_table = UserCreds(name=name, email=email)
+#     db.session.add(cred_table)
+#     db.session.commit()
+#
+#     # Create user-specific table
+#     create_user_table(name)
+#
+#     return jsonify({"success": True})
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -95,6 +122,18 @@ def login_page():
             return "Invalid credentials", 401
 
     return render_template('login.html')
+
+
+# @app.route("/google-login", methods=['POST'])
+# def google_login():
+#     data = request.json
+#     email = data.get("email")
+#
+#     user = UserCreds.query.filter_by(email=email).first()
+#     if user:
+#         return jsonify({"success": True})
+#     else:
+#         return jsonify({"success": False, "message": "User not found"}), 404
 
 
 @app.route("/<username>", methods=['POST', 'GET'])
@@ -164,6 +203,19 @@ def create_user_table(username):
     table_model = create_db_table(f'{username}_data')
     with app.app_context():
         db.create_all()
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
+# @app.after_request
+# def add_headers(response):
+#     response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
+#     response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
+#     return response
 
 
 if __name__ == "__main__":
