@@ -141,6 +141,7 @@
       height: 80%;
     }
 
+
     .light-mode textarea{
        border: 0.5px solid gray;
        background-color: black;
@@ -209,6 +210,7 @@
     .navbar-dark-mode .navbar-brand {
       color: white !important;
     }
+
 
     .zoomed-content {
       display: none;
