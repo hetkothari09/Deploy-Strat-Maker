@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, url_for, redirect, jsonify, send_from_directory
+from flask import Flask, render_template, request, url_for, flash, redirect, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import os
@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 import psycopg2
 from openai import OpenAI
-import jwt
+
 
 load_dotenv()
 model = os.getenv("MODEL")
@@ -20,6 +20,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:root@loc
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+SECRET_KEY = 'many random bytes'
+app.secret_key = 'many random bytes'
+
 
 conn = psycopg2.connect(
     database="gpt_prompt-responses",
@@ -36,7 +40,7 @@ class UserCreds(db.Model):
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=True)
-    google_id = db.Column(db.String(200), unique=True, nullable=True)
+    google_id = db.Column(db.String(200), unique=True)
 
     def __init__(self, name, email, password=None, google_id=None):
         self.name = name
@@ -125,6 +129,7 @@ def login_page():
             data = request.json
             email = data.get("email")
             password = data.get("ud")
+            print(email, password)
 
             user = UserCreds.query.filter_by(email=email).first()
             db_pass = UserCreds.query.filter_by(password=password).first()
@@ -133,11 +138,11 @@ def login_page():
                 if user and db_pass:
                     username = user.name
                     return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=username)})
-                # else:
-                    # flash('Invalid Credentials', 'error')
-                    # return "Invalid credentials", 404
-            except:
-                flash('Invalid Credentials', 'error')
+                else:
+                    flash('Invalid Credentials, Please try again!', 'error')
+            except SyntaxError:
+                flash('Invalid Credentials, Please try again!', 'error')
+
         else:
             email = request.form.get("email")
             password = request.form.get("password")
@@ -148,7 +153,7 @@ def login_page():
                 username = user.name
                 return redirect(url_for('user_endpoint', username=username))
             else:
-                return "Invalid credentials", 401
+                flash('Invalid Credentials, Please try again!', 'error')
 
     return render_template('login.html')
 
