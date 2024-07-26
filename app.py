@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, abort, jsonify, send_from_directory
+from flask import Flask, render_template, request, flash, url_for, redirect, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import os
@@ -31,20 +31,24 @@ cursor = conn.cursor()
 
 
 class UserCreds(db.Model):
-    __tablename__ = 'user_creds'
+    __tablename__ = 'new_user_creds'
     sNo = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), unique=True, nullable=False)
+    name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=True)
+    google_id = db.Column(db.String(200), unique=True, nullable=True)
 
-    def __init__(self, name, email, password=None):
+    def __init__(self, name, email, password=None, google_id=None):
         self.name = name
         self.email = email
         self.password = password
+        self.google_id = google_id
 
 
-# creates db table based on the username
-def create_db_table(table_name):
+# creates db table based on the email
+def create_db_table(email):
+    table_name = f"{email.replace('@', '_').replace('.', '_')}_data"
+
     class Table(db.Model):
         __tablename__ = table_name
         sNo = db.Column(db.Integer, primary_key=True)
@@ -67,78 +71,97 @@ def create_db_table(table_name):
 @app.route("/", methods=['POST', 'GET'])
 def signup_page():
     if request.method == 'POST':
-        name = request.form.get("name")
-        email = request.form.get("email")
-        unhashed_password = request.form.get("password")
+        if request.is_json:
+            data = request.json
+            email = data.get("email")
+            name = data.get("given_name")
+            google_id = data.get("sub")
 
-        # google_data = request.json
-        # gname = google_data.get('given_name')
-        # print(gname)
+            # print(email, name, google_id)
 
-        password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8')
+            # Check for existing email
+            cursor.execute('SELECT email FROM public.new_user_creds WHERE email = %s', (email,))
+            existing_email = cursor.fetchone()
 
-        cred_table = UserCreds(name=name, email=email, password=password)
-        db.session.add(cred_table)
-        db.session.commit()
+            if existing_email:
+                return jsonify({"success": False, "message": "User already exists"}), 404
 
-        # Create user-specific table
-        create_user_table(name)
+            cred_table = UserCreds(name=name, email=email, google_id=google_id)
+            db.session.add(cred_table)
+            db.session.commit()
 
-        return redirect(url_for('login_page'))
+            # Create user-specific table
+            create_user_table(email)
+
+            return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=name)})
+        else:
+            name = request.form.get("name")
+            email = request.form.get("email")
+            unhashed_password = request.form.get("password")
+            password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8')
+
+            # Check for existing email
+            cursor.execute('SELECT email FROM public.new_user_creds WHERE email = %s', (email,))
+            existing_email = cursor.fetchone()
+
+            if existing_email:
+                return "User already exists", 404
+
+            cred_table = UserCreds(name=name, email=email, password=password)
+            db.session.add(cred_table)
+            db.session.commit()
+
+            # Create user-specific table
+            create_user_table(email)
+
+            return redirect(url_for('login_page'))
     return render_template('signup.html')
-
-
-# @app.route("/google-signup", methods=['POST'])
-# def google_signup():
-#     data = request.json
-#     email = data.get("email")
-#     name = data.get("name")
-#
-#     user = UserCreds.query.filter_by(email=email).first()
-#     if user:
-#         return jsonify({"success": False, "message": "User already exists"}), 409
-#
-#     cred_table = UserCreds(name=name, email=email)
-#     db.session.add(cred_table)
-#     db.session.commit()
-#
-#     # Create user-specific table
-#     create_user_table(name)
-#
-#     return jsonify({"success": True})
 
 
 @app.route("/login", methods=["POST", "GET"])
 def login_page():
     if request.method == 'POST':
-        email = request.form.get("email")
-        password = request.form.get("password")
+        if request.is_json:
+            data = request.json
+            email = data.get("email")
+            password = data.get("ud")
 
-        user = UserCreds.query.filter_by(email=email).first()
-        if user and bcrypt.check_password_hash(user.password, password):
-            username = user.name
-            return redirect(url_for('user_endpoint', username=username))
+            user = UserCreds.query.filter_by(email=email).first()
+            db_pass = UserCreds.query.filter_by(password=password).first()
+
+            try:
+                if user and db_pass:
+                    username = user.name
+                    return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=username)})
+                # else:
+                    # flash('Invalid Credentials', 'error')
+                    # return "Invalid credentials", 404
+            except:
+                flash('Invalid Credentials', 'error')
         else:
-            return "Invalid credentials", 401
+            email = request.form.get("email")
+            password = request.form.get("password")
+
+            user = UserCreds.query.filter_by(email=email).first()
+
+            if user and bcrypt.check_password_hash(user.password, password):
+                username = user.name
+                return redirect(url_for('user_endpoint', username=username))
+            else:
+                return "Invalid credentials", 401
 
     return render_template('login.html')
 
 
-# @app.route("/google-login", methods=['POST'])
-# def google_login():
-#     data = request.json
-#     email = data.get("email")
-#
-#     user = UserCreds.query.filter_by(email=email).first()
-#     if user:
-#         return jsonify({"success": True})
-#     else:
-#         return jsonify({"success": False, "message": "User not found"}), 404
-
-
 @app.route("/<username>", methods=['POST', 'GET'])
 def user_endpoint(username):
-    table_model = create_db_table(f'{username}_data')
+    user = UserCreds.query.filter_by(name=username).first()
+    if not user:
+        return "User not found", 404
+
+    email = user.email
+    table_model = create_db_table(email)
+
     if request.method == 'POST':
         prompt_data = request.form["prompt_data"]
         history = request.form.get("history")
@@ -180,7 +203,12 @@ def user_endpoint(username):
 
 @app.route('/dbshow/<username>', methods=["POST", "GET"])
 def show_database(username):
-    data_name = f'{username}_data'
+    user = UserCreds.query.filter_by(name=username).first()
+    if not user:
+        return "User not found", 404
+
+    email = user.email
+    data_name = f"{email.replace('@', '_').replace('.', '_')}_data"
     query = f"SELECT * FROM public.{data_name}"
     cursor.execute(query)
     result = cursor.fetchall()
@@ -199,8 +227,8 @@ def navigate_pages():
     return redirect(url_for('user_endpoint', username=selected_users))
 
 
-def create_user_table(username):
-    table_model = create_db_table(f'{username}_data')
+def create_user_table(email):
+    table_model = create_db_table(email)
     with app.app_context():
         db.create_all()
 
@@ -211,17 +239,10 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-# @app.after_request
-# def add_headers(response):
-#     response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
-#     response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
-#     return response
-
-
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
         existing_users = UserCreds.query.all()
         for user in existing_users:
-            create_user_table(user.name)
+            create_user_table(user.email)
     app.run(debug=True, port=5000, host='localhost')

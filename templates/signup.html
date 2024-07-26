@@ -1,3 +1,5 @@
+<!-- signup -->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,21 +11,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     <meta name="google-signin-client_id" content="976793998158-nsqua1slkpdf2jv6450o4v8k580bfda1.apps.googleusercontent.com">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <title>Login</title>
-
+    <title>Signup</title>
     <style>
         body {
             background-image: linear-gradient(to bottom, black, gray, gray);
             color: #c0c0c0;
             font-family: monospace;
         }
+
+        .g_id_signin{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .container {
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0;
-            height: 100vh;
+            height: 92vh;
         }
         .box {
             background: rgba(0, 0, 0, 0.6);
@@ -74,10 +82,10 @@
         .navbar-dark-mode .navbar-brand {
             color: white !important;
         }
+
     </style>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark-mode">
     <div class="container-fluid">
         <a class="navbar-brand" href="#" style="text-shadow: 1px 1px gray; font-size:25px;">JSON-maker</a>
@@ -117,53 +125,85 @@
                 <i class="fa fa-lock" aria-hidden="true"></i>
                 <input name="password" placeholder="Password" type="password" id="password" required>
             </div>
-
-            <!-- handles google signin implementation and prints values in console -->
-            <div id="g_id_onload"
-             data-client_id="976793998158-nsqua1slkpdf2jv6450o4v8k580bfda1.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse">
+            <p style="display:flex; justify-content:center; align-items:center; font-size: 14px;">OR</p>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="sign_in_with"
+                 data-shape="rectangular"
+                 data-logo_alignment="left"
+                 data-width="250"
+                 style="margin-top:-10px; margin-bottom: 20px;">
             </div>
-            <div class="g_id_signin" data-type="standard" style="display:flex; justify-content:center; align-items:center; padding-bottom:10px; width:100%;"></div>
-
-            <a href="/login" style="display: flex; font-size: 13px; color: #0d6efd;">Already have an account?</a>
-            <button type="submit" class="submit-btn">Submit</button>
+            <a href="/login" style="display:flex; justify-content:left; color:0d6efd; font-size:14px;">Already have an account?</a>
+            <input type="submit" class="submit-btn" value="Sign Up">
         </form>
-
     </div>
 </div>
 <script>
+    document.getElementById("signup-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        fetch("/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `name=${name}&email=${email}&password=${password}`
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = "/login";
+            } else {
+                console.error("Signup failed");
+            }
+        }).catch(error => {
+            console.error("Error:", error);
+        });
+    });
+
     function handleCredentialResponse(response) {
         const responsePayload = decodeJwtResponse(response.credential);
-        console.log("ID: " + responsePayload.sub);
-        console.log('Full Name: ' + responsePayload.name);
-        console.log('Given Name: ' + responsePayload.given_name);
-        console.log('Family Name: ' + responsePayload.family_name);
-        console.log("Image URL: " + responsePayload.picture);
-        console.log("Email: " + responsePayload.email);
 
-        fetch('/', {
-            method: 'POST',
+        fetch("/", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(responsePayload)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            document.getElementById("name").value = responsePayload.given_name;
-            document.getElementById("email").value = responsePayload.email;
-        })
-        .catch(error => console.error('Error:', error));
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  window.location.href = data.redirect_url;
+              } else {
+                  console.error("Google signup failed");
+              }
+          }).catch(error => {
+              console.error("Error:", error);
+          });
     }
+
+    window.onload = function () {
+        google.accounts.id.initialize({
+            client_id: "976793998158-nsqua1slkpdf2jv6450o4v8k580bfda1.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+            document.querySelector(".g_id_signin"),
+            { theme: "outline", size: "large" }
+        );
+        google.accounts.id.prompt();
+    };
 
     function decodeJwtResponse(token) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-
         return JSON.parse(jsonPayload);
     }
 </script>
