@@ -40,6 +40,20 @@
     </div>
   </nav>
 
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+
+            <p class="alert alert-danger" role="alert" style="margin:10px;">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              {{ message }}
+            </p>
+
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+
   <div class="container">
     <form action="/{{username}}" method="POST" class="box">
       <div class="mb-3">
