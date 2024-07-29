@@ -81,16 +81,14 @@ def signup_page():
             name = data.get("given_name")
             google_id = data.get("sub")
 
-            # print(email, name, google_id)
-
             # Check for existing email
             cursor.execute('SELECT email FROM public.new_user_creds WHERE email = %s', (email,))
             existing_email = cursor.fetchone()
 
-            if email == existing_email[0]:
+            if existing_email is not None and email == existing_email[0]:
                 flash('USER ALREADY EXISTS!', 'error')
                 return jsonify({"success": True, "redirect_url": url_for('login_page', username=name)})
-            elif email != existing_email[0]:
+            else:
                 cred_table = UserCreds(name=name, email=email, google_id=google_id)
                 db.session.add(cred_table)
                 db.session.commit()
@@ -109,15 +107,11 @@ def signup_page():
             cursor.execute("SELECT email FROM public.new_user_creds WHERE email = %s", (email,))
             existing_email = cursor.fetchone()
             print(existing_email)
-            # if existing_email:
-            #     flash("User already exists", "error")
-            #     # return redirect(url_for('signup_page'))
-            #     # return 'User already exists', 402
 
-            if email == existing_email[0]:
+            if existing_email is not None and email == existing_email[0]:
                 flash("USER ALREADY EXISTS!", "error")
                 return "User exists"
-            elif email != existing_email[0]:
+            else:
                 cred_table = UserCreds(name=name, email=email, password=password)
                 db.session.add(cred_table)
                 db.session.commit()
