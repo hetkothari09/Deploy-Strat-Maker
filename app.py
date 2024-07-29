@@ -87,17 +87,18 @@ def signup_page():
             cursor.execute('SELECT email FROM public.new_user_creds WHERE email = %s', (email,))
             existing_email = cursor.fetchone()
 
-            if existing_email:
-                return jsonify({"success": False, "message": "User already exists"}), 404
+            if email == existing_email[0]:
+                flash('USER ALREADY EXISTS!', 'error')
+                return jsonify({"success": True, "redirect_url": url_for('login_page', username=name)})
+            elif email != existing_email[0]:
+                cred_table = UserCreds(name=name, email=email, google_id=google_id)
+                db.session.add(cred_table)
+                db.session.commit()
 
-            cred_table = UserCreds(name=name, email=email, google_id=google_id)
-            db.session.add(cred_table)
-            db.session.commit()
+                # Create user-specific table
+                create_user_table(email)
 
-            # Create user-specific table
-            create_user_table(email)
-
-            return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=name)})
+                return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=name)})
         else:
             name = request.form.get("name")
             email = request.form.get("email")
@@ -105,20 +106,26 @@ def signup_page():
             password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8')
 
             # Check for existing email
-            cursor.execute('SELECT email FROM public.new_user_creds WHERE email = %s', (email,))
+            cursor.execute("SELECT email FROM public.new_user_creds WHERE email = %s", (email,))
             existing_email = cursor.fetchone()
+            print(existing_email)
+            # if existing_email:
+            #     flash("User already exists", "error")
+            #     # return redirect(url_for('signup_page'))
+            #     # return 'User already exists', 402
 
-            if existing_email:
-                return "User already exists", 404
+            if email == existing_email[0]:
+                flash("USER ALREADY EXISTS!", "error")
+                return "User exists"
+            elif email != existing_email[0]:
+                cred_table = UserCreds(name=name, email=email, password=password)
+                db.session.add(cred_table)
+                db.session.commit()
 
-            cred_table = UserCreds(name=name, email=email, password=password)
-            db.session.add(cred_table)
-            db.session.commit()
+                # Create user-specific table
+                create_user_table(email)
 
-            # Create user-specific table
-            create_user_table(email)
-
-            return redirect(url_for('login_page'))
+                return redirect(url_for('login_page'))
     return render_template('signup.html')
 
 
