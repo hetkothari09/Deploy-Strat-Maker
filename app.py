@@ -144,6 +144,7 @@ def login_page():
             try:
                 if user and db_pass:
                     username = user.name
+                    flash('Login Successful!', 'success')
                     return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=username)})
                 else:
                     flash('Invalid Credentials, Please try again!', 'error')
