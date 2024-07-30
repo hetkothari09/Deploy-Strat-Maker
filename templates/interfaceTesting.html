@@ -248,7 +248,7 @@
       conditionSelect.value = rule.condition || '';
       ruleDiv.appendChild(conditionSelect);
 
-      if (rule.condition === 'Candle Close Comparison' || rule.condition === 'Close Comparison' || rule.condition === 'Price <Comparison></Comparison>') {
+      if (rule.condition === 'Candle Close Comparison' || rule.condition === 'Close Comparison' || rule.condition === 'Price Comparison') {
           const selectCondition1 = createSelect(conditions);
           selectCondition1.value = rule.Value1 || '';
           ruleDiv.appendChild(selectCondition1);
@@ -268,7 +268,7 @@
           operatorSelect.value = rule.Operator || '';
           ruleDiv.appendChild(operatorSelect);
 
-      if (rule.condition === 'SuperTrend' || rule.condition === 'Supertrend'|| rule.condition === 'SMA' || rule.condition === 'EMA' || rule.Period) {
+      if (rule.condition === 'SuperTrend' || rule.condition === 'Supertrend'|| rule.condition === 'SMA' || rule.Period) {
               const periodInput = document.createElement('input');
               periodInput.type = 'text';
               periodInput.placeholder = 'Period';
@@ -329,10 +329,17 @@
               if (operatorSelect) {
                   ruleDiv.removeChild(operatorSelect);
               }
-
       }
 
+<!--      if(rule.SubCondition){-->
+<!--              const subconditionSelect = document.createElement('input');-->
+<!--              subconditionSelect.type = 'input';-->
+<!--              subconditionSelect.placeholder = 'subcondition';-->
+<!--              subconditionSelect.value = rule.SubCondition || '';-->
+<!--              ruleDiv.appendChild(subconditionSelect);-->
 
+<!--              ruleDiv.removeChild(operatorSelect);-->
+<!--      }-->
 
       if (rule.LongPeriod || rule.ShortPeriod) {
               const longPeriodInput = document.createElement('input');
