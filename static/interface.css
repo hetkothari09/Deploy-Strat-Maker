@@ -149,8 +149,9 @@
        border: 0.5px solid gray;
        background-color: black;
        font-size: 23px;
-       color: green;
+       color: #d3d3d3;
        text-shadow: 0.5px 0.5px gray;
+
     }
 
     .light-mode .form-label{
