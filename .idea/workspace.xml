@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="added close button for assistant's response">
+    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="changed css of close button">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/interfaceTesting.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/interfaceTesting.html" afterDir="false" />
@@ -250,7 +250,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722326940751</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="changed css of close button">
+      <option name="closed" value="true" />
+      <created>1722330442912</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1722330442912</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -305,6 +313,7 @@
     <MESSAGE value="modified textarea input color" />
     <MESSAGE value="made changes to js code to handle multiple input conditions" />
     <MESSAGE value="added close button for assistant's response" />
-    <option name="LAST_COMMIT_MESSAGE" value="added close button for assistant's response" />
+    <MESSAGE value="changed css of close button" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed css of close button" />
   </component>
 </project>

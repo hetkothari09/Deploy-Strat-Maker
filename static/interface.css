@@ -133,7 +133,7 @@
       display: flex;
       width: 87%;
       padding: 10px;
-      font-size: 23px;
+      font-size: 19px;
       border: 5px solid #ddd;
       border-radius: 25px;
       resize: vertical;
@@ -147,10 +147,10 @@
   .close-button {
         background-color: transparent;
         font-size: 20px;
-        cursor: pointer;
         position: absolute;
         right: -1px;
         top: -3px;
+        cursor: pointer;
         color: red;
         text-shadow: 2px 2px 2px black;
         border-left: 2px solid black;
@@ -177,7 +177,7 @@
     .light-mode textarea{
        border: 0.5px solid gray;
        background-color: black;
-       font-size: 23px;
+       font-size: 19px;
        color: #d3d3d3;
        text-shadow: 0.5px 0.5px gray;
 
