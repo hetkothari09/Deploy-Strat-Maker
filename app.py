@@ -96,6 +96,7 @@ def signup_page():
                 # Create user-specific table
                 create_user_table(email)
 
+                flash('Login Successful!', 'success')
                 return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=name)})
         else:
             name = request.form.get("name")
@@ -106,11 +107,11 @@ def signup_page():
             # Check for existing email
             cursor.execute("SELECT email FROM public.new_user_creds WHERE email = %s", (email,))
             existing_email = cursor.fetchone()
-            print(existing_email)
+            # print(existing_email is not None, existing_email[0], email)
 
             if existing_email is not None and email == existing_email[0]:
                 flash("USER ALREADY EXISTS!", "error")
-                return "User exists"
+                return redirect(url_for('signup_page'))
             else:
                 cred_table = UserCreds(name=name, email=email, password=password)
                 db.session.add(cred_table)
@@ -118,7 +119,7 @@ def signup_page():
 
                 # Create user-specific table
                 create_user_table(email)
-
+                flash('Registered Successfully!', 'success')
                 return redirect(url_for('login_page'))
     return render_template('signup.html')
 
@@ -130,21 +131,16 @@ def login_page():
             data = request.json
             email = data.get("email")
             password = data.get("ud")
-            print(email, password)
 
             user = UserCreds.query.filter_by(email=email).first()
-            db_pass = UserCreds.query.filter_by(password=password).first()
-
-            try:
-                if user and db_pass:
-                    username = user.name
-                    flash('Login Successful!', 'success')
-                    return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=username)})
-                else:
-                    flash('Invalid Credentials, Please try again!', 'error')
-            except SyntaxError:
-                flash('Invalid Credentials, Please try again!', 'error')
-
+            # print(email, user.email)
+            if user is not None and email == user.email:
+                username = user.name
+                flash('Login Successful!', 'error')
+                return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=username)})
+            elif user is None:
+                flash('USER NOT FOUND!', 'error')
+                return jsonify({"success": True, "redirect_url": url_for('signup_page')})
         else:
             email = request.form.get("email")
             password = request.form.get("password")
@@ -153,6 +149,7 @@ def login_page():
 
             if user and bcrypt.check_password_hash(user.password, password):
                 username = user.name
+                flash('Login Successful!', 'success')
                 return redirect(url_for('user_endpoint', username=username))
             else:
                 flash('Invalid Credentials, Please try again!', 'error')
