@@ -86,7 +86,8 @@
 
 
 {% if result %}
-      <div class="box result-box">
+      <div class="box result-box" id="resultBox">
+        <button class="close-button" onclick="closeResultBox()">X</button>
         <label class="form-label" style="display: flex; justify-content: center;"><h5 style="font-size: 25px;">Assistant</h5></label>
 <!--        <div class="result" id="result">-->
 <!--            {{result}}-->
@@ -182,10 +183,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="static/interface.js"></script>
-<!--  <script src="static/interfaceTesting.js"></script>-->
   <link rel="stylesheet" type="text/css" href="static/user-form.css" />
+  <!--  <script src="static/interfaceTesting.js"></script>-->
 
-<script>
+  <script>
 
 const result = {{result|tojson|safe}};
 const initialJson = JSON.parse(result);
@@ -266,7 +267,7 @@ function createRule(rule, conditions) {
         operatorSelect.value = rule.Operator || '';
         ruleDiv.appendChild(operatorSelect);
 
-     if (rule.condition === 'SuperTrend' || rule.condition === 'SMA' || rule.condition === 'EMA' || rule.Period) {
+    if (rule.condition === 'SuperTrend' || rule.condition === 'SMA' || rule.condition === 'EMA' || rule.Period) {
             const periodInput = document.createElement('input');
             periodInput.type = 'text';
             periodInput.placeholder = 'Period';
@@ -278,9 +279,9 @@ function createRule(rule, conditions) {
             const operatorSelectPeriod = createSelect(['<', '=', '>', '<=', '>='], true);
             operatorSelectPeriod.value = rule.Operator || '';
             ruleDiv.appendChild(operatorSelectPeriod);
-     }
+    }
 
-     if(rule.condition === 'Candle' || rule.condition === 'CandleColor'){
+    if(rule.condition === 'Candle' || rule.condition === 'CandleColor') {
 
             const valueInput = document.createElement('text');
             valueInput.type = 'text';
@@ -290,10 +291,10 @@ function createRule(rule, conditions) {
 
             ruleDiv.removeChild(operatorSelect);
 
-     }
+    }
 
 
-     if (rule.LongPeriod || rule.ShortPeriod) {
+    if (rule.LongPeriod || rule.ShortPeriod) {
             const longPeriodInput = document.createElement('input');
             longPeriodInput.type = 'text';
             longPeriodInput.placeholder = 'Long Period';
@@ -306,7 +307,7 @@ function createRule(rule, conditions) {
             shortPeriodInput.value = rule.ShortPeriod || '';
             ruleDiv.appendChild(shortPeriodInput);
 
-        } else {
+    } else {
             let valueInput;
             if (rule.condition === 'TimeBased' || rule.condition === 'Time Based' || rule.condition === 'Time') {
                 valueInput = document.createElement('input');
@@ -492,7 +493,12 @@ Sell_squareoff_conditionContainer.appendChild(Sell_squareoff_conditionHeader);
 Sell_squareoff_conditionContainer.appendChild(createRuleGroup(initialJson.Config.Sell_squareoff_condition?.conditions ? initialJson.Config.Sell_squareoff_condition : { conditionOperator: 'AND', conditions: [initialJson.Config.Sell_squareoff_condition] }, conditionFields));
 
 </script>
+  <script>
+    function closeResultBox() {
+    document.getElementById("resultBox").style.display = "none";
+  }
 
+  </script>
 </body>
 </html>
 

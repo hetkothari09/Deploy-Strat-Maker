@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
       const zoomButtons = document.querySelectorAll('.zoom-btn');
       const closeButtons = document.querySelectorAll('.close-btn');

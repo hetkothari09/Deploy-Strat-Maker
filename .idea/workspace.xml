@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="changed some styling of elements">
+    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="made changes to js code to handle multiple input conditions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/interface.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/interfaceTesting.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/interfaceTesting.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -226,7 +227,23 @@
       <option name="project" value="LOCAL" />
       <updated>1722318802474</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="modified textarea input color">
+      <option name="closed" value="true" />
+      <created>1722323390822</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1722323390822</updated>
+    </task>
+    <task id="LOCAL-00014" summary="made changes to js code to handle multiple input conditions">
+      <option name="closed" value="true" />
+      <created>1722323434315</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1722323434315</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -278,6 +295,8 @@
     <MESSAGE value="changed the favicon logo" />
     <MESSAGE value="updated flash messages for some endpoints" />
     <MESSAGE value="changed some styling of elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed some styling of elements" />
+    <MESSAGE value="modified textarea input color" />
+    <MESSAGE value="made changes to js code to handle multiple input conditions" />
+    <option name="LAST_COMMIT_MESSAGE" value="made changes to js code to handle multiple input conditions" />
   </component>
 </project>

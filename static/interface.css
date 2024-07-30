@@ -144,6 +144,21 @@
       text-shadow: 0.7px 0.7px black;
     }
 
+   .close-button {
+        background-color: black;
+        font-size: 20px;
+        cursor: pointer;
+        position: absolute;
+        right: 7px;
+        top: 7px;
+        color: red;
+        text-shadow: 2px 2px 2px black;
+  }
+
+  .close-button:hover {
+        color: red;
+  }
+
 
     .light-mode textarea{
        border: 0.5px solid gray;
