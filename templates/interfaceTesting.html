@@ -63,7 +63,7 @@
     <form action="/{{username}}" method="POST" class="box">
       <div class="mb-3">
         <label for="prompt_data" class="form-label" style="padding-bottom: 10px; display:flex; justify-content:center;"><h5 style="font-size:25px">User</h5></label>
-        <textarea name="prompt_data" placeholder="Enter your prompt here" id="prompt_data" style="font-size:20px; text-shadow: 0.5px 0.5px black;" required></textarea>
+        <textarea name="prompt_data" placeholder="Enter your prompt here" id="prompt_data" style="" required></textarea>
         <!-- mic button -->
         <div style="display:flex; position:relative; justify-content: flex-end; margin-top:-39vh; margin-right: -12px;">
           <button type="button" onclick="toggleSpeechRecognition()" class="mic-button">
@@ -107,8 +107,7 @@
         </div>
         </div>
 
-
-            <button class="uf-btn" onclick="getRules()" style="height:30px; background-color: gray; color: black; margin-left: 61vh; margin-bottom: -20px; color: white; border-radius: 3px; ">Get rules</button>
+        <button class="uf-btn" onclick="getRules()" style="height:30px; background-color: gray; color: black; margin-left: 61vh; margin-bottom: -20px; color: white; border-radius: 3px; ">Get rules</button>
 <!--            <button class="uf-btn" onclick="addRuleGroup()" style="height:30px;">Add Group</button>-->
         <!--            <button class="uf-btn" onclick="testwindow()">TestWindow</button>-->
 <!--            {{result | replace('\n', '<br>') | safe}}-->
