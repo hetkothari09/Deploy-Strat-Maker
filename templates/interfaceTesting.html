@@ -181,7 +181,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!--  <script src="static/interfaceTesting.js"></script>-->
   <script src="static/interface.js"></script>
 <!--  <script src="static/interfaceTesting.js"></script>-->
   <link rel="stylesheet" type="text/css" href="static/user-form.css" />
@@ -267,6 +266,33 @@ function createRule(rule, conditions) {
         operatorSelect.value = rule.Operator || '';
         ruleDiv.appendChild(operatorSelect);
 
+     if (rule.condition === 'SuperTrend' || rule.condition === 'SMA' || rule.condition === 'EMA' || rule.Period) {
+            const periodInput = document.createElement('input');
+            periodInput.type = 'text';
+            periodInput.placeholder = 'Period';
+            periodInput.value = rule.Period || '';
+            ruleDiv.appendChild(periodInput);
+
+            ruleDiv.removeChild(operatorSelect);
+
+            const operatorSelectPeriod = createSelect(['<', '=', '>', '<=', '>='], true);
+            operatorSelectPeriod.value = rule.Operator || '';
+            ruleDiv.appendChild(operatorSelectPeriod);
+     }
+
+     if(rule.condition === 'Candle' || rule.condition === 'CandleColor'){
+
+            const valueInput = document.createElement('text');
+            valueInput.type = 'text';
+            valueInput.placeholder = 'Color';
+            valueInput.value = rule.Value || '';
+            ruleDiv.appendChild(valueInput);
+
+            ruleDiv.removeChild(operatorSelect);
+
+     }
+
+
      if (rule.LongPeriod || rule.ShortPeriod) {
             const longPeriodInput = document.createElement('input');
             longPeriodInput.type = 'text';
@@ -279,9 +305,10 @@ function createRule(rule, conditions) {
             shortPeriodInput.placeholder = 'Short Period';
             shortPeriodInput.value = rule.ShortPeriod || '';
             ruleDiv.appendChild(shortPeriodInput);
+
         } else {
             let valueInput;
-            if (rule.condition === 'TimeBased') {
+            if (rule.condition === 'TimeBased' || rule.condition === 'Time Based' || rule.condition === 'Time') {
                 valueInput = document.createElement('input');
                 valueInput.type = 'text';
                 valueInput.value = rule.Value || rule.TimeFrame || '';
