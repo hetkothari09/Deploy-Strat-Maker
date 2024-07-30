@@ -144,19 +144,33 @@
       text-shadow: 0.7px 0.7px black;
     }
 
-   .close-button {
-        background-color: black;
+  .close-button {
+        background-color: transparent;
         font-size: 20px;
         cursor: pointer;
         position: absolute;
-        right: 7px;
-        top: 7px;
+        right: -1px;
+        top: -3px;
         color: red;
         text-shadow: 2px 2px 2px black;
+        border-left: 2px solid black;
   }
 
-  .close-button:hover {
-        color: red;
+  .light-mode .close-button {
+        border: 1px solid white;
+        top: -1px;
+  }
+
+  .close-button:hover{
+        background-color: red;
+        color: black;
+        text-shadow: none;
+        border: none;
+  }
+
+  .light-mode .close-button:hover{
+        color: white;
+        border: none;
   }
 
 
