@@ -244,16 +244,16 @@
       const ruleDiv = document.createElement('div');
       ruleDiv.className = 'rule';
 
-      const conditionSelect = createSelect(conditions.filter(cond => cond !== 'Close Comparison'));
+      const conditionSelect = createSelect(conditions.filter(cond => cond !== 'Close Comparison' || cond !== 'Candle Close Comparison'));
       conditionSelect.value = rule.condition || '';
       ruleDiv.appendChild(conditionSelect);
 
-      if (rule.condition === 'PriceComparison') {
+      if (rule.condition === 'Candle Close Comparison' || rule.condition === 'Close Comparison' || rule.condition === 'Price <Comparison></Comparison>') {
           const selectCondition1 = createSelect(conditions);
           selectCondition1.value = rule.Value1 || '';
           ruleDiv.appendChild(selectCondition1);
 
-          const operatorSelect = createSelect(['<', '=', '>', '<=', '>='], true);
+          const operatorSelect = createSelect(['<', '=', '>', '<=', '>=', '=='], true);
           operatorSelect.value = rule.Operator || '';
           ruleDiv.appendChild(operatorSelect);
 
@@ -264,7 +264,7 @@
           ruleDiv.removeChild(conditionSelect);
       } else {
 
-          const operatorSelect = createSelect(['<', '=', '>', '<=', '>='], true);
+          const operatorSelect = createSelect(['<', '=', '>', '<=', '>=', '=='], true);
           operatorSelect.value = rule.Operator || '';
           ruleDiv.appendChild(operatorSelect);
 
@@ -277,7 +277,7 @@
 
               ruleDiv.removeChild(operatorSelect);
 
-              const operatorSelectPeriod = createSelect(['<', '=', '>', '<=', '>='], true);
+              const operatorSelectPeriod = createSelect(['<', '=', '>', '<=', '>=', '=='], true);
               operatorSelectPeriod.value = rule.Operator || '';
               ruleDiv.appendChild(operatorSelectPeriod);
       }
@@ -293,6 +293,30 @@
                 ruleDiv.removeChild(operatorSelect);
               }
       }
+
+
+<!--      if(rule.condition === 'Gann Fan Angle'){-->
+<!--            ruleDiv.removeChild(operatorSelect);-->
+
+<!--            const operatorSelectBtn = document.createElement('text');-->
+<!--            operatorSelectBtn.type = 'text';-->
+<!--            operatorSelectBtn.placeholder = 'Between';-->
+<!--            operatorSelectBtn.value = rule.Operator || '';-->
+<!--            ruleDiv.appendChild(operatorSelect);-->
+
+<!--            const valueSelect = document.createElement('text');-->
+<!--            valueSelect.type = 'text';-->
+<!--            valueSelect.placeholder = 'value1'-->
+<!--            valueSelect.value = rule.Value1 || '';-->
+<!--            ruleDiv.appendChild(valueSelect);-->
+
+<!--            const valuenewSelect = document.createElement('text');-->
+<!--            valuenewSelect.type = 'text';-->
+<!--            valuenewSelect.placeholder = 'value2';-->
+<!--            valuenewSelect.value = rule.Value2 || '';-->
+<!--            ruleDiv.appendChild(valuenewSelect);-->
+
+<!--      }-->
 
 
         if(rule.condition.toLowerCase() === 'candlepattern') {
@@ -369,8 +393,8 @@
           opt.innerText = isOperator ? convertOperator(option) : option;
           select.appendChild(opt);
       });
-      resizeSelect(select); // Adjust the select box size
-      select.addEventListener('change', () => resizeSelect(select)); // Resize on change
+      resizeSelect(select);
+      select.addEventListener('change', () => resizeSelect(select));
       return select;
   }
 
@@ -395,6 +419,7 @@
           case '>': return 'greater';
           case '<=': return 'less than equal';
           case '>=': return 'greater than equal';
+          case '==': return 'starts';
           default: return operator;
       }
   }
@@ -515,6 +540,7 @@
   }
 
   </script>
+
 </body>
 </html>
 
