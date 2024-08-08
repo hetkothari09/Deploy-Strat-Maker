@@ -212,7 +212,8 @@
     }
 
     .light-mode .result-box {
-      color: #00ff21;
+      color: black;
+      text-shadow: 1.5px 1.5px gray;
     }
 
 
