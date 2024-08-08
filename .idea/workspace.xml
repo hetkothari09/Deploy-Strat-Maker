@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="changed css of navbar">
+    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="updated project tasks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/interfaceTesting.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/interfaceTesting.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,6 +59,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hetnk\Desktop\Flask-codes\extra_files" />
       <recent name="C:\Users\hetnk\Desktop\Flask-codes\static" />
     </key>
   </component>
@@ -289,7 +291,23 @@
       <option name="project" value="LOCAL" />
       <updated>1722340266476</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="js code modifications">
+      <option name="closed" value="true" />
+      <created>1722343054675</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1722343054675</updated>
+    </task>
+    <task id="LOCAL-00022" summary="updated project tasks">
+      <option name="closed" value="true" />
+      <created>1722344466698</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1722344466699</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -349,6 +367,8 @@
     <MESSAGE value="js code modifications to handle multiple inputs" />
     <MESSAGE value="changed name of the web-app" />
     <MESSAGE value="changed css of navbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed css of navbar" />
+    <MESSAGE value="js code modifications" />
+    <MESSAGE value="updated project tasks" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated project tasks" />
   </component>
 </project>
