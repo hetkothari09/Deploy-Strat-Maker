@@ -456,7 +456,7 @@
     }
 
     .light-mode .mic-button{
-        background-image:linear-gradient(to bottom, black, black);
+        background-image: linear-gradient(to bottom, black, black);
         border: 0.5px solid gray;
     }
 

@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="changed light-mode dark-mode icons and some css changes" />
+    <list default="true" id="2c150290-e377-43de-b01d-59d11c1ce12d" name="Changes" comment="changed light-mode dark-mode icons and some css changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/db.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/db.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/interfaceTesting.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/interfaceTesting.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
