@@ -169,7 +169,7 @@
 
 <script>
     document.getElementById("signup-form").addEventListener("submit", function(event) {
-        event.preventDefault();  // Prevent the default form submission
+        event.preventDefault();
 
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
@@ -177,8 +177,8 @@
         const confirmPassword = document.getElementById("confirmPassword").value;
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");  // Alert the user if passwords do not match
-            return;  // Stop further processing if passwords don't match
+            alert("Passwords do not match!");  
+            return;
         }
 
         fetch("/", {
