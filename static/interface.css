@@ -193,10 +193,24 @@
     }
 
     .btn {
-      background-color: #a9a9a9;
-      border-color: black;
+      background-color: black;
+      border-color: white;
       color: black;
     }
+
+    zbtn {
+        background-color: black;
+        border-color: white;
+    }
+
+    .btn:hover {
+        background-color: blue;
+    }
+
+    .light-mode .btn:hover {
+        background-color: yellow;
+    }
+
     .mb-3 {
       height: 50vh;
       width: 500px;
@@ -225,9 +239,11 @@
       height: 32px;
       opacity: 0.3;
     }
+
     .close:hover {
       opacity: 1;
     }
+
     .close:before, .close:after {
       position: absolute;
       left: 15px;
@@ -236,9 +252,11 @@
       width: 2px;
       background-color: #333;
     }
+
     .close:before {
       transform: rotate(45deg);
     }
+
     .close:after {
       transform: rotate(-45deg);
       opacity: 0;
@@ -400,14 +418,18 @@
 
     .zoom-btn {
       position: absolute;
-      top: 5px;
+      top: 9px;
       right: 10px;
       font-size: 0.8em;
+      background-color: blue;
+      border-color: blue;
+      color: white;
+      border-radius: 5px;
     }
 
     .zoom-btn:hover{
-      background-color: #a9a9a9;
-      color:black;
+      background-color: blue;
+      color: white;
     }
 
     .close-btn {
@@ -415,6 +437,14 @@
       top: 5px;
       right: 10px;
       cursor: pointer;
+      background-color: red;
+      border-color: red;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .close-btn:hover {
+        background-color: red;
     }
 
     .mic-button{
@@ -478,3 +508,25 @@
       border-radius: 10px;
     }
 
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+
+      position: absolute;
+      z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }

@@ -78,7 +78,7 @@
 
     .navbar-dark-mode, .navbar-light-mode {
       background-color: black;
-      border-bottom: 3px solid gray;
+      border-bottom: 1px solid gray;
     }
 
     .navbar-light-mode .nav-link,
@@ -91,12 +91,6 @@
       color: white !important;
     }
 
-    .btn {
-      background-color: #a9a9a9;
-      border-color: black;
-      color: black;
-      margin-left: 10px;
-    }
 
     .conv {
       margin-left: 20px;
@@ -176,10 +170,19 @@
     }
 
     .btn {
-      background-color: #a9a9a9;
-      border-color: black;
+      background-color: black;
+      border-color: white;
       color: black;
     }
+
+    .btn:hover {
+      background-color: blue;
+    }
+
+    .light-mode .btn:hover {
+      background-color: yellow;
+    }
+
   </style>
 
 </head>
@@ -208,7 +211,7 @@
             </a>
           </li>
         </ul>
-        <button class="btn btn-outline-secondary ms-auto" id="modeToggle" style="position: absolute; right: 20px;">Light Mode</button>
+        <button class="btn btn-outline-secondary ms-auto" id="modeToggle" style="position: absolute; right: 16px;">☀️</button>
       </div>
     </div>
   </nav>
@@ -257,7 +260,7 @@
       body.classList.toggle('light-mode', mode === 'light');
       navbar.classList.toggle('navbar-dark-mode', mode === 'dark');
       navbar.classList.toggle('navbar-light-mode', mode === 'light');
-      document.getElementById('modeToggle').textContent = mode === 'dark' ? 'Light Mode' : 'Dark Mode';
+      document.getElementById('modeToggle').textContent = mode === 'dark' ? '🌙' : '☀️';
       localStorage.setItem('mode', mode);
     }
   </script>

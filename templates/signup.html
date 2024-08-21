@@ -168,6 +168,7 @@
 </div>
 
 <script>
+
     document.getElementById("signup-form").addEventListener("submit", function(event) {
         event.preventDefault();
 
@@ -177,7 +178,7 @@
         const confirmPassword = document.getElementById("confirmPassword").value;
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");  
+            alert("Passwords do not match!");
             return;
         }
 
@@ -235,13 +236,12 @@
         callback: handleCredentialResponse
     });
 
-    // Render the Google Sign-In button
     google.accounts.id.renderButton(
         document.querySelector(".g_id_signin"),
         { theme: "outline", size: "large" }
     );
 
-    google.accounts.id.prompt(); // Prompt the user to select a Google account
+    google.accounts.id.prompt();
 };
 
 </script>

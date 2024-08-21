@@ -44,13 +44,13 @@ document.addEventListener('DOMContentLoaded', function() {
           body.classList.remove('dark-mode');
           navbar.classList.add('navbar-light-mode');
           navbar.classList.remove('navbar-dark-mode');
-          modeToggle.textContent = 'Dark Mode';
+          modeToggle.textContent = '☀️';
         } else {
           body.classList.add('dark-mode');
           body.classList.remove('light-mode');
           navbar.classList.add('navbar-dark-mode');
           navbar.classList.remove('navbar-light-mode');
-          modeToggle.textContent = 'Light Mode';
+          modeToggle.textContent = '🌙';
         }
       }
 
