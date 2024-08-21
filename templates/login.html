@@ -114,7 +114,7 @@
      {% with messages = get_flashed_messages() %}
           {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 20px; margin-bottom: -45px;">
+                <div class="alert alert-dismissible fade show" role="alert" style="margin: 20px; margin-bottom: -45px;">
                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                   {{ message }}
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -137,6 +137,12 @@
                     <i class="fa fa-lock" aria-hidden="true"></i>
                     <input name="password" placeholder="Password" type="password" id="password" required>
                 </div>
+
+<!--                <div class="form-group">-->
+<!--                <i class="fa fa-check-square-o" aria-hidden="true"></i>-->
+<!--                <input name="password" placeholder="Confirm Password" type="password" id="confirmPassword" required>-->
+<!--                </div>-->
+
                 <p style="display:flex; justify-content:center; items-align:center; font-size: 14px;">OR</p>
                 <div class="g_id_signin"
                  data-type="standard"

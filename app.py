@@ -86,8 +86,8 @@ def signup_page():
             existing_email = cursor.fetchone()
 
             if existing_email is not None and email == existing_email[0]:
-                flash('USER ALREADY EXISTS!', 'error')
-                return jsonify({"success": True, "redirect_url": url_for('login_page', username=name)})
+                # flash('USER ALREADY EXISTS!', 'error')
+                return jsonify({"success": True, "redirect_url": url_for('user_endpoint', username=name)})
             else:
                 cred_table = UserCreds(name=name, email=email, google_id=google_id)
                 db.session.add(cred_table)

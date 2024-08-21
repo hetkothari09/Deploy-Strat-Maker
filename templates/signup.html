@@ -1,16 +1,9 @@
-<!-- signup -->
-
 <!doctype html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-   <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" integrity="sha384-dpuaG1suU0eT09tx5plTaGMLBsfDLzUCCUXOY2j/LSvXYuG6Bqs43ALlhIqAJVRb" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     <meta name="google-signin-client_id" content="976793998158-nsqua1slkpdf2jv6450o4v8k580bfda1.apps.googleusercontent.com">
@@ -26,7 +19,7 @@
             font-family: monospace;
         }
 
-        .g_id_signin{
+        .g_id_signin {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,29 +33,35 @@
             margin: 0;
             height: 92vh;
         }
+
         .box {
             background: rgba(0, 0, 0, 0.6);
             margin: 10px;
-            width: 340px;
-            padding: 20px;
+            width: 350px;
+            padding: 16px;
             border-radius: 10px;
             box-shadow: 14px 14px black;
-            font-size: 20px;
+            font-size: 18px;
             margin-left: 6em;
+            margin-top: -10px;
         }
+
         .form-container {
             display: flex;
             flex-direction: column;
         }
+
         .form-group {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
         }
+
         .form-group i {
             margin-right: 10px;
             color: #0d6efd;
         }
+
         .form-group input {
             flex: 1;
             padding: 10px;
@@ -72,6 +71,7 @@
             border: 1px solid #0d6efd;
             color: white;
         }
+
         .submit-btn {
             background-color: #0d6efd;
             color: white;
@@ -81,15 +81,16 @@
             border: none;
             cursor: pointer;
         }
+
         .navbar-dark-mode {
             background-color: black;
             border-bottom: 3px solid black;
         }
+
         .navbar-dark-mode .nav-link,
         .navbar-dark-mode .navbar-brand {
             color: white !important;
         }
-
     </style>
 </head>
 <body>
@@ -112,12 +113,9 @@
                     </a>
                 </li>
             </ul>
-<!--            <button class="btn btn-outline-secondary ms-auto" id="modeToggle" style="margin-left: 129vh; text-shadow: 0.6px 0.6px gray;">Dark Mode</button>-->
         </div>
     </div>
 </nav>
-
-
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -130,8 +128,6 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
-
-
 
 <div class="container">
     <div class="box">
@@ -149,7 +145,12 @@
                 <i class="fa fa-lock" aria-hidden="true"></i>
                 <input name="password" placeholder="Password" type="password" id="password" required>
             </div>
-            <p style="display:flex; justify-content:center; align-items:center; font-size: 14px;">OR</p>
+            <div class="form-group">
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                <input name="confirmPassword" placeholder="Confirm Password" type="password" id="confirmPassword" required>
+            </div>
+
+             <p style="display:flex; justify-content:center; align-items:center; font-size: 14px;">OR</p>
             <div class="g_id_signin"
                  data-type="standard"
                  data-size="large"
@@ -165,11 +166,20 @@
         </form>
     </div>
 </div>
+
 <script>
     document.getElementById("signup-form").addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent the default form submission
+
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");  // Alert the user if passwords do not match
+            return;  // Stop further processing if passwords don't match
+        }
 
         fetch("/", {
             method: "POST",
@@ -209,26 +219,31 @@
           });
     }
 
-    window.onload = function () {
-        google.accounts.id.initialize({
-            client_id: "976793998158-nsqua1slkpdf2jv6450o4v8k580bfda1.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-            document.querySelector(".g_id_signin"),
-            { theme: "outline", size: "large" }
-        );
-        google.accounts.id.prompt();
-    };
-
     function decodeJwtResponse(token) {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        let base64Url = token.split('.')[1];
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
+
         return JSON.parse(jsonPayload);
     }
+
+    window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: "976793998158-nsqua1slkpdf2jv6450o4v8k580bfda1.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+    });
+
+    // Render the Google Sign-In button
+    google.accounts.id.renderButton(
+        document.querySelector(".g_id_signin"),
+        { theme: "outline", size: "large" }
+    );
+
+    google.accounts.id.prompt(); // Prompt the user to select a Google account
+};
+
 </script>
 </body>
 </html>
